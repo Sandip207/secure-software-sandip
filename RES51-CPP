@@ -1,0 +1,10 @@
+#include <mutex>
+
+std::mutex mtx;
+
+void safeFunction() {
+    std::lock_guard<std::mutex> lock(mtx);  // Lock is automatically released
+}
+Incorrect Code:
+cpp
+mtx.lock();
