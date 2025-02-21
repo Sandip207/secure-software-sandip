@@ -1,0 +1,5 @@
+java
+String password = System.getenv("DB_PASSWORD");  // Safe, no hardcoded value
+Incorrect Code:
+java
+String password = "mySecret123";
