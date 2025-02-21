@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main() {
+    char name[20];
+    printf("sandip: ");
+    fgets(name, sizeof(name), stdin);
+    printf("Hello, %s", name);
+    return 0;
+}
+Incorrect Code:
+c
+char name[20];
+gets(name);
