@@ -1,0 +1,16 @@
+#include <stdlib.h>
+
+int main() {
+    int *ptr = malloc(sizeof(int) * 5);
+    if (ptr) {
+        free(ptr);
+        ptr = NULL;  // Safe practice
+    }
+    return 0;
+}
+Incorrect Code:
+c
+CopyEdit
+int *ptr = malloc(sizeof(int) * 5);
+free(ptr);
+*ptr = 10;
