@@ -1,0 +1,26 @@
+#include <iostream>
+
+class Base {
+public:
+    virtual ~Base() {}  // Safe, avoids memory leaks
+};
+
+class Derived : public Base {
+private:
+    int* data;
+public:
+    Derived() { data = new int[10]; }
+    ~Derived() { delete[] data; }
+};
+
+int main() {
+    Base* obj = new Derived();
+    delete obj;  // Calls correct destructor
+    return 0;
+}
+Incorrect Code:
+cpp
+class Base {
+public:
+    ~Base() {}  // Not virtual, can cause memory leak
+};
