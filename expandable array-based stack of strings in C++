@@ -1,0 +1,61 @@
+#include <iostream>
+#include <memory>
+#include <stdexcept>
+class StringStack {
+private:
+ std::unique_ptr<std::unique_ptr<std::string>[]> data;
+ size_t size;
+ size_t capacity;
+ void expand() {
+ size_t new_capacity = capacity * 2;
+ auto new_data = std::make_unique<std::unique_ptr<std::string>[]>(new_capacity);
+ for (size_t i = 0; i < size; ++i) {
+ new_data[i] = std::make_unique<std::string>(*data[i]);
+ }
+ data = std::move(new_data);
+ capacity = new_capacity;
+ }
+public:
+ explicit StringStack(size_t initial_capacity = 4)
+ : size(0), capacity(initial_capacity),
+data(std::make_unique<std::unique_ptr<std::string>[]>(initial_capacity)) {}
+ void push(const std::string& str) {
+ if (size == capacity) {
+ expand();
+ }
+ data[size++] = std::make_unique<std::string>(str);
+ }
+ std::string pop() {
+ if (size == 0) {
+ throw std::underflow_error("Stack is empty");
+ }
+ return *data[--size];
+ }
+ std::string peek() const {
+ if (size == 0) {
+ throw std::underflow_error("Stack is empty");
+ }
+ return *data[size - 1];
+ }
+ bool is_empty() const {
+ return size == 0;
+ }
+ size_t get_size() const {
+ return size;
+ }
+};
+int main() {
+ try {
+ StringStack stack;
+ stack.push("Hello");
+ stack.push("World");
+ std::cout << "Top: " << stack.peek() << std::endl;
+ std::cout << "Popped: " << stack.pop() << std::endl;
+ std::cout << "Popped: " << stack.pop() << std::endl;
+ // This will throw an exception
+ std::cout << "Popped: " << stack.pop() << std::endl;
+ } catch (const std::exception& e) {
+ std::cerr << "Error: " << e.what() << std::endl;
+ }
+ return 0;
+} 
