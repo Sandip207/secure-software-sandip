@@ -1,0 +1,30 @@
+function autoKeyVigenereEncryptWithCiphertext(plaintext, keyphrase) {
+    const A = 'A'.charCodeAt(0);
+    let key = keyphrase.toUpperCase();
+    let ciphertext = '';
+
+    for (let i = 0; i < plaintext.length; i++) {
+        const plainChar = plaintext[i].toUpperCase();
+        const keyChar = key[i].toUpperCase();
+
+        if (plainChar < 'A' || plainChar > 'Z') {
+            ciphertext += plainChar;Mm
+            continue;
+        }
+
+        const plainVal = plainChar.charCodeAt(0) - A;
+        const keyVal = keyChar.charCodeAt(0) - A;
+
+        const cipherVal = (plainVal + keyVal) % 26;
+        const cipherChar = String.fromCharCode(cipherVal + A);
+        ciphertext += cipherChar;
+        key += cipherChar;
+    }
+
+    return ciphertext;
+}
+const plaintext = "ATTACKATDAWN";
+const keyphrase = "QUEEN";
+
+const result = autoKeyVigenereEncryptWithCiphertext(plaintext, keyphrase);
+console.log("Ciphertext:", result);
